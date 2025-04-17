@@ -1,0 +1,240 @@
+/* Estilos Gerais */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #2d3748;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #2d3748;
+}
+
+.game-container {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    max-width: 100%;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+h1 {
+    color: #2d3748;
+    margin-bottom: 25px;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.game-stats {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 25px;
+    background-color: #edf2f7;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.stat {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+#maze {
+    display: grid;
+    gap: 1px;
+    background-color: #4a5568;
+    margin: 0 auto 25px;
+    border: 3px solid #4a5568;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#maze div {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+}
+
+.wall {
+    background-color: #2d3748 !important;
+}
+
+.path {
+    background-color: #f7fafc;
+}
+
+.player {
+    background-color: white !important;
+    position: relative;
+}
+
+.player::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 70%;
+    background-color: #8a2be2;
+    border-radius: 50%;
+}
+
+.goal {
+    background-color: #48bb78 !important;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Controles Reformulados */
+.controls-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 20px;
+}
+
+.restart-btn {
+    background-color: #ff4757;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #cc3a47;
+    transition: all 0.1s;
+    order: 1;
+}
+
+.restart-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #cc3a47;
+}
+
+.d-pad {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    background: #e0e0e0;
+    border-radius: 50%;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
+    order: 2;
+}
+
+.d-pad-center {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: #d0d0d0;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+}
+
+.arrow-btn {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #dcdcdc;
+    border: none;
+    font-size: 20px;
+    color: #555;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #b0b0b0;
+    transition: all 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrow-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #b0b0b0;
+}
+
+#up {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#down {
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#left {
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+}
+
+#right {
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .game-container {
+        padding: 20px;
+    }
+    
+    .controls-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .restart-btn {
+        order: 2;
+    }
+    
+    .d-pad {
+        order: 1;
+    }
+    
+    #maze div {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+@media (max-width: 400px) {
+    #maze div {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .d-pad {
+        width: 130px;
+        height: 130px;
+    }
+    
+    .arrow-btn {
+        width: 45px;
+        height: 45px;
+    }
+}
