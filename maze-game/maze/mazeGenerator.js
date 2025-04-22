@@ -1,94 +1,96 @@
-export function initializeMaze(container, rows, cols) {
+// Geração do labirinto
+export function generateMaze(container, rows, cols) {
     container.innerHTML = '';
-    container.style.gridTemplateColumns = `repeat(${cols}, 20px)`;
-    container.style.gridTemplateRows = `repeat(${rows}, 20px)`;
-
-    // Cria todas as células como paredes
+    
+    // Cria células
     for (let i = 0; i < rows * cols; i++) {
         const cell = document.createElement('div');
         cell.classList.add('wall');
         container.appendChild(cell);
     }
-}
-
-export function generateMaze(container, rows, cols) {
-    // Passo 1: Criar estrutura básica
-    initializeMaze(container, rows, cols);
     
-    // Passo 2: Gerar labirinto com backtracking a partir do canto superior esquerdo
-    carvePassage(container, 0, 0, rows, cols);
+    // Backtracking para gerar labirinto
+    function carvePath(row, col) {
+        const index = row * cols + col;
+        container.children[index].classList.remove('wall');
+        container.children[index].classList.add('path');
+        
+        const directions = shuffle([
+            {row: -2, col: 0}, {row: 2, col: 0},
+            {row: 0, col: -2}, {row: 0, col: 2}
+        ]);
+        
+        for (const dir of directions) {
+            const newRow = row + dir.row;
+            const newCol = col + dir.col;
+            
+            if (newRow >= 0 && newRow < rows && 
+                newCol >= 0 && newCol < cols && 
+                container.children[newRow * cols + newCol].classList.contains('wall')) {
+                
+                const midRow = row + dir.row/2;
+                const midCol = col + dir.col/2;
+                container.children[midRow * cols + midCol].classList.remove('wall');
+                container.children[midRow * cols + midCol].classList.add('path');
+                
+                carvePath(newRow, newCol);
+            }
+        }
+    }
     
-    // Passo 3: Definir entrada e saída
-    setEntryAndExit(container, rows, cols);
+    carvePath(0, 0);
     
-    // Retorna posições importantes
+    // Define entrada e saída
+    container.children[0].classList.add('player');
+    container.children[rows*cols-1].classList.add('goal');
+    
     return {
         start: { row: 0, col: 0 },
-        goal: { row: rows - 1, col: cols - 1 }
+        goal: { row: rows-1, col: cols-1 }
     };
 }
 
-function carvePassage(container, row, col, rows, cols) {
-    // Marca a célula atual como caminho
-    const index = row * cols + col;
-    container.children[index].classList.remove('wall');
-    container.children[index].classList.add('path');
-
-    // Embaralha as direções
-    const directions = shuffleDirections();
+// Resolução com backtracking
+export function solveMazeBacktracking(container, rows, cols, start, goal) {
+    const path = [];
+    const visited = new Array(rows * cols).fill(false);
     
-    // Tenta mover em todas as direções
-    for (const dir of directions) {
-        const newRow = row + dir.row * 2;
-        const newCol = col + dir.col * 2;
+    function findPath(current, steps) {
+        const [row, col] = current;
+        const index = row * cols + col;
         
-        if (isValid(newRow, newCol, rows, cols, container)) {
-            // Remove a parede entre a célula atual e a nova
-            const betweenRow = row + dir.row;
-            const betweenCol = col + dir.col;
-            const betweenIndex = betweenRow * cols + betweenCol;
-            container.children[betweenIndex].classList.remove('wall');
-            container.children[betweenIndex].classList.add('path');
-            
-            // Continua a partir da nova célula
-            carvePassage(container, newRow, newCol, rows, cols);
+        if (row === goal.row && col === goal.col) {
+            path.push(...steps, [row, col]);
+            return true;
         }
+        
+        if (row < 0 || row >= rows || col < 0 || col >= cols || 
+            visited[index] || container.children[index].classList.contains('wall')) {
+            return false;
+        }
+        
+        visited[index] = true;
+        steps.push([row, col]);
+        
+        const directions = [[-1, 0], [0, 1], [1, 0], [0, -1]];
+        for (const [dr, dc] of directions) {
+            if (findPath([row + dr, col + dc], steps)) {
+                return true;
+            }
+        }
+        
+        steps.pop();
+        return false;
     }
+    
+    findPath([start.row, start.col], []);
+    return path;
 }
 
-function setEntryAndExit(container, rows, cols) {
-    // Entrada (canto superior esquerdo)
-    container.children[0].classList.remove('wall');
-    container.children[0].classList.add('path', 'start');
-    
-    // Saída (canto inferior direito)
-    const exitIndex = (rows - 1) * cols + (cols - 1);
-    container.children[exitIndex].classList.remove('wall');
-    container.children[exitIndex].classList.add('path', 'goal');
-}
-
-function shuffleDirections() {
-    const directions = [
-        { row: -1, col: 0 }, // Cima
-        { row: 1, col: 0 },  // Baixo
-        { row: 0, col: -1 }, // Esquerda
-        { row: 0, col: 1 }   // Direita
-    ];
-    
-    // Embaralha usando Fisher-Yates
-    for (let i = directions.length - 1; i > 0; i--) {
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [directions[i], directions[j]] = [directions[j], directions[i]];
+        [array[i], array[j]] = [array[j], array[i]];
     }
-    
-    return directions;
-}
-
-function isValid(row, col, rows, cols, container) {
-    // Verifica se está dentro dos limites
-    if (row < 0 || row >= rows || col < 0 || col >= cols) return false;
-    
-    // Verifica se ainda é uma parede (não visitada)
-    const index = row * cols + col;
-    return container.children[index].classList.contains('wall');
+    return array;
 }
