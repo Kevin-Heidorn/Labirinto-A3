@@ -1,35 +1,34 @@
-// Geração do labirinto
+// Gera o labirinto
 export function generateMaze(container, rows, cols) {
     container.innerHTML = '';
     
-    // Cria células
+    // Cria todas as células como paredes
     for (let i = 0; i < rows * cols; i++) {
         const cell = document.createElement('div');
         cell.classList.add('wall');
         container.appendChild(cell);
     }
     
-    // Backtracking para gerar labirinto
+    // Função que abre caminhos no labirinto
     function carvePath(row, col) {
         const index = row * cols + col;
         container.children[index].classList.remove('wall');
         container.children[index].classList.add('path');
         
         const directions = shuffle([
-            {row: -2, col: 0}, {row: 2, col: 0},
-            {row: 0, col: -2}, {row: 0, col: 2}
+            {row: -2, col: 0}, {row: 2, col: 0}, // Cima/Baixo
+            {row: 0, col: -2}, {row: 0, col: 2}  // Esquerda/Direita
         ]);
         
         for (const dir of directions) {
             const newRow = row + dir.row;
             const newCol = col + dir.col;
             
-            if (newRow >= 0 && newRow < rows && 
-                newCol >= 0 && newCol < cols && 
+            if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols && 
                 container.children[newRow * cols + newCol].classList.contains('wall')) {
                 
-                const midRow = row + dir.row/2;
-                const midCol = col + dir.col/2;
+                const midRow = row + dir.row / 2;
+                const midCol = col + dir.col / 2;
                 container.children[midRow * cols + midCol].classList.remove('wall');
                 container.children[midRow * cols + midCol].classList.add('path');
                 
@@ -40,27 +39,28 @@ export function generateMaze(container, rows, cols) {
     
     carvePath(0, 0);
     
-    // Define entrada e saída
+    // Define início (jogador) e fim (quadrado verde)
     container.children[0].classList.add('player');
-    container.children[rows*cols-1].classList.add('goal');
+    container.children[rows * cols - 1].classList.add('goal');
     
     return {
         start: { row: 0, col: 0 },
-        goal: { row: rows-1, col: cols-1 }
+        goal: { row: rows - 1, col: cols - 1 }
     };
 }
 
-// Resolução com backtracking
-export function solveMazeBacktracking(container, rows, cols, start, goal) {
-    const path = [];
+// Função que resolve o labirinto (com erros propositais)
+export function solveMazeWithMistakes(container, rows, cols, start, goal) {
+    const fullPath = [];
     const visited = new Array(rows * cols).fill(false);
     
-    function findPath(current, steps) {
+    function explore(current, path) {
         const [row, col] = current;
         const index = row * cols + col;
         
+        // Se chegou no objetivo, retorna o caminho
         if (row === goal.row && col === goal.col) {
-            path.push(...steps, [row, col]);
+            fullPath.push(...path, [row, col]);
             return true;
         }
         
@@ -70,23 +70,29 @@ export function solveMazeBacktracking(container, rows, cols, start, goal) {
         }
         
         visited[index] = true;
-        steps.push([row, col]);
+        path.push([row, col]);
+        fullPath.push([row, col]);
         
+        // Às vezes erra de propósito (30% de chance)
         const directions = [[-1, 0], [0, 1], [1, 0], [0, -1]];
+        if (Math.random() < 0.3) directions.reverse();
+        
         for (const [dr, dc] of directions) {
-            if (findPath([row + dr, col + dc], steps)) {
+            if (explore([row + dr, col + dc], path)) {
                 return true;
             }
         }
         
-        steps.pop();
+        path.pop();
+        fullPath.push([row, col]); // Backtracking
         return false;
     }
     
-    findPath([start.row, start.col], []);
-    return path;
+    explore([start.row, start.col], []);
+    return fullPath;
 }
 
+// Função para misturar array
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
