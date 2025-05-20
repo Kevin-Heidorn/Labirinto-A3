@@ -75,7 +75,7 @@ export function solveMazeWithMistakes(container, rows, cols, start, goal) {
         
         // Às vezes erra de propósito (30% de chance)
         const directions = [[-1, 0], [0, 1], [1, 0], [0, -1]];
-        if (Math.random() < 0.3) directions.reverse();
+        if (Math.random() < 0.9) directions.reverse();
         
         for (const [dr, dc] of directions) {
             if (explore([row + dr, col + dc], path)) {
