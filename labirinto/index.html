@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labirinto 25x25</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Labirinto 25x25</h1>
+        
+        <div class="controls">
+            <button id="solveCorrect">✅ Resolver Acertando</button>
+            <button id="solveWrong">🔄 Resolver Errando</button>
+            <button id="reset">🔄 Novo Labirinto</button>
+        </div>
+        
+        <div class="stats">
+            <div>⏱️ Tempo: <span id="timer">00:00</span></div>
+            <div>👣 Movimentos: <span id="moves">0</span></div>
+        </div>
+        
+        <div class="maze-container">
+            <div class="maze" id="maze"></div>
+        </div>
+    </div>
+    
+    <div id="victoryModal" class="modal">
+        <div class="modal-content">
+            <h2>🎉 Vitória! 🎉</h2>
+            <p>Você resolveu o labirinto!</p>
+            <p>⏱️ Tempo: <span id="finalTime">00:00</span></p>
+            <p>👣 Movimentos: <span id="finalMoves">0</span></p>
+            <button id="closeModal">Fechar</button>
+        </div>
+    </div>
+
+    <script src="maze.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
