@@ -13,6 +13,7 @@ class Game {
         this.solvingMethod = null;
         this.solutionPath = [];
         this.animationSpeed = 50;
+        this.shouldShowVictory = false;
 
         this.elements = {
             maze: document.getElementById('maze'),
@@ -52,6 +53,7 @@ class Game {
         this.solvingMethod = method;
         this.moves = 0;
         this.timer = 0;
+        this.shouldShowVictory = false;
         
         this.elements.solveCorrect.disabled = true;
         this.elements.solveWrong.disabled = true;
@@ -105,7 +107,10 @@ class Game {
 
     animateCorrectSolution(index = 0) {
         if (!this.isSolving || index >= this.solutionPath.length) {
-            this.showVictory();
+            if (this.isSolving) {
+                this.shouldShowVictory = true;
+                this.showVictory();
+            }
             return;
         }
         
@@ -215,6 +220,7 @@ class Game {
     }
 
     showVictory() {
+        if (!this.shouldShowVictory) return;
         this.elements.finalTime.textContent = this.elements.timer.textContent;
         this.elements.finalMoves.textContent = this.moves;
         this.elements.victoryModal.style.display = 'flex';
@@ -233,8 +239,9 @@ class Game {
     }
 
     resetGame() {
-        clearInterval(this.timerInterval);
         this.isSolving = false;
+        this.shouldShowVictory = false;
+        clearInterval(this.timerInterval);
         this.mazeGenerator = new MazeGenerator();
         this.maze = this.mazeGenerator.getMaze();
         this.path = [];
@@ -247,6 +254,7 @@ class Game {
         this.elements.moves.textContent = '0';
         this.elements.solveCorrect.disabled = false;
         this.elements.solveWrong.disabled = false;
+        this.elements.victoryModal.style.display = 'none';
         
         this.renderMaze();
     }
