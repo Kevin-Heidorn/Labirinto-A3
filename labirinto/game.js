@@ -128,6 +128,7 @@ class Game {
         const current = this.path[this.path.length - 1];
         
         if (current.x === this.endPosition.x && current.y === this.endPosition.y) {
+            this.shouldShowVictory = true;
             this.showVictory();
             return;
         }
@@ -221,6 +222,8 @@ class Game {
 
     showVictory() {
         if (!this.shouldShowVictory) return;
+        
+        clearInterval(this.timerInterval);
         this.elements.finalTime.textContent = this.elements.timer.textContent;
         this.elements.finalMoves.textContent = this.moves;
         this.elements.victoryModal.style.display = 'flex';
@@ -239,9 +242,9 @@ class Game {
     }
 
     resetGame() {
+        clearInterval(this.timerInterval);
         this.isSolving = false;
         this.shouldShowVictory = false;
-        clearInterval(this.timerInterval);
         this.mazeGenerator = new MazeGenerator();
         this.maze = this.mazeGenerator.getMaze();
         this.path = [];
@@ -260,7 +263,6 @@ class Game {
     }
 }
 
-// Inicia o jogo quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', () => {
     new Game();
 });
