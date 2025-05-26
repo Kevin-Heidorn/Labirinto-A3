@@ -47,6 +47,13 @@ Este projeto é um jogo de labirinto gerado aleatoriamente em JavaScript. O obje
 - CSS3
 
 ---
+
+## Responsividade
+
+Este projeto é totalmente responsivo, oferecendo uma boa experiência de uso tanto em dispositivos desktop quanto em dispositivos móveis.
+
+---
+
 ## Licença
 
 Este projeto é aberto e gratuito para uso e modificação.
