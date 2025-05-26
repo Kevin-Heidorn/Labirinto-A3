@@ -47,15 +47,6 @@ Este projeto é um jogo de labirinto gerado aleatoriamente em JavaScript. O obje
 - CSS3
 
 ---
-
-## Personalização
-
-- Você pode ajustar o tamanho do labirinto alterando a constante `MAZE_SIZE` no código.
-- A velocidade da animação pode ser modificada ajustando o valor de `animationSpeed` na classe `Game`.
-- A lógica dos algoritmos de solução pode ser expandida para incluir outros métodos.
-
----
-
 ## Licença
 
 Este projeto é aberto e gratuito para uso e modificação.
