@@ -12,7 +12,7 @@ class Game {
         this.isSolving = false;
         this.solvingMethod = null;
         this.solutionPath = [];
-        this.animationSpeed = 50;
+        this.animationSpeed = 100;
         this.shouldShowVictory = false;
 
         this.elements = {
