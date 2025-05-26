@@ -1,51 +1,75 @@
+:root {
+    --primary-color: #6304a3;
+    --secondary-color: #2c46bd;
+    --accent-color: #b700ff;
+    --text-color: #ffffff;
+    --wall-color: #2c46bd;
+    --start-color: #33fd00;
+    --end-color: #e74c3c;
+    --path-color: #f1c40f;
+    --visited-color: #09ff32;
+    --current-color: #b700ff;
+    --button-color: #3498db;
+    --button-hover: #2980b9;
+    --stats-bg: #c5cbcc;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     background-color: #171b30;
     margin: 0;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
+    color: var(--text-color);
 }
 
 .game-container {
-    background: rgb(99, 4, 163);
+    background: var(--primary-color);
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    padding: 20px;
-    max-width: 800px;
+    padding: 15px;
     width: 100%;
+    max-width: 800px;
+    margin: 10px 0;
 }
 
 h1 {
-    color: #ffffff;
     text-align: center;
-    margin-bottom: 20px;
+    margin: 0 0 15px 0;
+    font-size: clamp(1.5rem, 4vw, 2rem);
 }
 
 .controls {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 8px;
+    margin-bottom: 15px;
     justify-content: center;
 }
 
 button {
-    padding: 10px 15px;
+    padding: 8px 12px;
     border: none;
     border-radius: 5px;
-    background-color: #3498db;
+    background-color: var(--button-color);
     color: white;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s;
-    font-size: 14px;
+    font-size: clamp(12px, 3vw, 14px);
+    flex: 1 1 auto;
+    min-width: 120px;
 }
 
 button:hover {
-    background-color: #2980b9;
+    background-color: var(--button-hover);
     transform: translateY(-2px);
 }
 
@@ -58,15 +82,17 @@ button:disabled {
 .stats {
     display: flex;
     justify-content: space-between;
-    background: #c5cbcc;
-    padding: 10px 15px;
+    background: var(--stats-bg);
+    padding: 8px 12px;
     border-radius: 5px;
-    margin-bottom: 15px;
-    font-size: 16px;
+    margin-bottom: 12px;
+    font-size: clamp(14px, 3vw, 16px);
+    color: #000;
 }
 
 .maze-container {
     width: 100%;
+    max-width: 100%;
     aspect-ratio: 1/1;
     border: 2px solid #000000;
     border-radius: 5px;
@@ -83,32 +109,32 @@ button:disabled {
 
 .cell {
     background-color: white;
-    border: 1px solid #000000;
+    border: 0.5px solid #000000;
 }
 
 .wall {
-    background-color: #2c46bd;
+    background-color: var(--wall-color);
 }
 
 .start {
-    background-color: #33fd00;
+    background-color: var(--start-color);
 }
 
 .end {
-    background-color: #e74c3c;
+    background-color: var(--end-color);
 }
 
 .path {
-    background-color: #f1c40f;
+    background-color: var(--path-color);
 }
 
 .visited {
-    background-color: #09ff32;
+    background-color: var(--visited-color);
     opacity: 0.5;
 }
 
 .current {
-    background-color: #b700ff;
+    background-color: var(--current-color);
 }
 
 .modal {
@@ -122,15 +148,18 @@ button:disabled {
     z-index: 100;
     justify-content: center;
     align-items: center;
+    padding: 10px;
 }
 
 .modal-content {
     background-color: white;
-    padding: 30px;
+    padding: 20px;
     border-radius: 10px;
     text-align: center;
-    max-width: 80%;
+    width: 100%;
+    max-width: 400px;
     animation: modalFadeIn 0.3s;
+    color: #000;
 }
 
 @keyframes modalFadeIn {
@@ -141,19 +170,58 @@ button:disabled {
 .modal h2 {
     color: #2ecc71;
     margin-top: 0;
+    font-size: clamp(1.3rem, 5vw, 1.8rem);
 }
 
 #closeModal {
-    background-color: #3498db;
-    margin-top: 20px;
+    background-color: var(--button-color);
+    margin-top: 15px;
+    width: auto;
 }
 
+/* Melhorias específicas para mobile */
 @media (max-width: 600px) {
+    body {
+        padding: 5px;
+        align-items: flex-start;
+    }
+    
+    .game-container {
+        padding: 10px;
+    }
+    
     .controls {
-        flex-direction: column;
+        gap: 5px;
     }
     
     button {
-        width: 100%;
+        padding: 6px 8px;
+        min-width: 100px;
+    }
+    
+    .stats {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+    
+    .maze-container {
+        border-width: 1px;
+    }
+    
+    .cell {
+        border-width: 0.3px;
+    }
+}
+
+@media (max-width: 400px) {
+    button {
+        font-size: 11px;
+        min-width: 80px;
+    }
+    
+    .stats {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
     }
 }
