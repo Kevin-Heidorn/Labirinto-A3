@@ -16,18 +16,19 @@
 
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
     font-family: 'Arial', sans-serif;
     background-color: #171b30;
-    margin: 0;
-    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
     color: var(--text-color);
+    padding: 10px;
 }
 
 .game-container {
@@ -38,6 +39,9 @@ body {
     width: 100%;
     max-width: 800px;
     margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 h1 {
@@ -52,6 +56,7 @@ h1 {
     gap: 8px;
     margin-bottom: 15px;
     justify-content: center;
+    width: 100%;
 }
 
 button {
@@ -66,6 +71,7 @@ button {
     font-size: clamp(12px, 3vw, 14px);
     flex: 1 1 auto;
     min-width: 120px;
+    max-width: 200px;
 }
 
 button:hover {
@@ -88,11 +94,13 @@ button:disabled {
     margin-bottom: 12px;
     font-size: clamp(14px, 3vw, 16px);
     color: #000;
+    width: 100%;
 }
 
 .maze-container {
     width: 100%;
-    max-width: 100%;
+    max-width: 100vw;
+    max-height: calc(100vh - 250px);
     aspect-ratio: 1/1;
     border: 2px solid #000000;
     border-radius: 5px;
@@ -183,7 +191,6 @@ button:disabled {
 @media (max-width: 600px) {
     body {
         padding: 5px;
-        align-items: flex-start;
     }
     
     .game-container {
@@ -206,6 +213,7 @@ button:disabled {
     
     .maze-container {
         border-width: 1px;
+        max-height: calc(100vh - 220px);
     }
     
     .cell {
@@ -223,5 +231,9 @@ button:disabled {
         flex-direction: column;
         gap: 5px;
         text-align: center;
+    }
+    
+    .maze-container {
+        max-height: calc(100vh - 200px);
     }
 }
