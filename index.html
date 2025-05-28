@@ -11,9 +11,18 @@
         <h1>Labirinto</h1>
         
         <div class="controls">
-            <button id="solveCorrect">✅ Resolver Acertando</button>
-            <button id="solveWrong">🔄 Resolver Errando</button>
-            <button id="reset">🔄 Novo Labirinto</button>
+            <div class="maze-controls">
+                <div class="maze-size-control">
+                    <label for="mazeSize">Tamanho</label>
+                    <input type="number" id="mazeSize" min="5" max="99" step="2" value="25">
+                    <button id="applySize">Aplicar</button>
+                </div>
+                <div class="action-buttons">
+                    <button id="solveCorrect">✅ Resolver Acertando</button>
+                    <button id="solveWrong">🔄 Resolver Errando</button>
+                    <button id="reset">🔄 Novo Labirinto</button>
+                </div>
+            </div>
         </div>
         
         <div class="stats">

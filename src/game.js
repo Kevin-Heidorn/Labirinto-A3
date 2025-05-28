@@ -1,11 +1,14 @@
 class Game {
     constructor() {
-        this.mazeGenerator = new MazeGenerator();
+        this.mazeSizeInput = document.getElementById('mazeSize');
+        this.mazeSize = parseInt(this.mazeSizeInput.value);
+        this.mazeGenerator = new MazeGenerator(this.mazeSize);
         this.maze = this.mazeGenerator.getMaze();
+        this.size = this.mazeGenerator.getSize();
         this.path = [];
         this.visited = [];
         this.currentPosition = { x: 1, y: 1 };
-        this.endPosition = { x: MAZE_SIZE-2, y: MAZE_SIZE-2 };
+        this.endPosition = { x: this.size-2, y: this.size-2 };
         this.moves = 0;
         this.timer = 0;
         this.timerInterval = null;
@@ -25,13 +28,16 @@ class Game {
             victoryModal: document.getElementById('victoryModal'),
             finalTime: document.getElementById('finalTime'),
             finalMoves: document.getElementById('finalMoves'),
-            closeModal: document.getElementById('closeModal')
+            closeModal: document.getElementById('closeModal'),
+            mazeSizeInput: document.getElementById('mazeSize'),
+            applySize: document.getElementById('applySize')
         };
 
         this.init();
     }
 
     init() {
+        this.setupGrid();
         this.renderMaze();
         this.setupEventListeners();
     }
@@ -41,6 +47,29 @@ class Game {
         this.elements.solveWrong.addEventListener('click', () => this.startSolving('wrong'));
         this.elements.reset.addEventListener('click', () => this.resetGame());
         this.elements.closeModal.addEventListener('click', () => this.closeModal());
+        this.elements.applySize.addEventListener('click', () => this.handleMazeSizeChange());
+    }
+
+    handleMazeSizeChange() {
+        let newSize = parseInt(this.elements.mazeSizeInput.value);
+    
+        if (newSize % 2 === 0) {
+            newSize = newSize < 100 ? newSize + 1 : newSize - 1;
+            this.elements.mazeSizeInput.value = newSize;
+        }
+    
+        if (newSize >= 5 && newSize <= 99) {
+            this.mazeSize = newSize;
+            this.resetGame();
+    } else {
+            this.elements.mazeSizeInput.value = this.mazeSize;
+            alert('Por favor, insira um tamanho ímpar entre 5 e 99');
+        }
+    }   
+
+    setupGrid() {
+        this.elements.maze.style.gridTemplateColumns = `repeat(${this.size}, 1fr)`;
+        this.elements.maze.style.gridTemplateRows = `repeat(${this.size}, 1fr)`;
     }
 
     startSolving(method) {
@@ -93,7 +122,7 @@ class Game {
                 const ny = current.y + dir.dy;
                 const key = `${nx},${ny}`;
                 
-                if (nx >= 0 && nx < MAZE_SIZE && ny >= 0 && ny < MAZE_SIZE && 
+                if (nx >= 0 && nx < this.size && ny >= 0 && ny < this.size && 
                     this.maze[nx][ny] === 0 && !visited.has(key)) {
                     
                     visited.add(key);
@@ -145,7 +174,7 @@ class Game {
             const ny = current.y + dir.dy;
             const key = `${nx},${ny}`;
             
-            if (nx >= 0 && nx < MAZE_SIZE && ny >= 0 && ny < MAZE_SIZE && 
+            if (nx >= 0 && nx < this.size && ny >= 0 && ny < this.size && 
                 this.maze[nx][ny] === 0 && !this.visited.some(p => p.x === nx && p.y === ny)) {
                 
                 this.path.push({x: nx, y: ny});
@@ -179,8 +208,8 @@ class Game {
     renderMaze() {
         this.elements.maze.innerHTML = '';
         
-        for (let i = 0; i < MAZE_SIZE; i++) {
-            for (let j = 0; j < MAZE_SIZE; j++) {
+        for (let i = 0; i < this.size; i++) {
+            for (let j = 0; j < this.size; j++) {
                 const cell = document.createElement('div');
                 cell.className = 'cell';
                 
@@ -245,14 +274,17 @@ class Game {
         clearInterval(this.timerInterval);
         this.isSolving = false;
         this.shouldShowVictory = false;
-        this.mazeGenerator = new MazeGenerator();
+        this.mazeGenerator = new MazeGenerator(this.mazeSize);
         this.maze = this.mazeGenerator.getMaze();
+        this.size = this.mazeGenerator.getSize();
         this.path = [];
         this.visited = [];
         this.currentPosition = { x: 1, y: 1 };
+        this.endPosition = { x: this.size-2, y: this.size-2 };
         this.moves = 0;
         this.timer = 0;
         
+        this.setupGrid();
         this.elements.timer.textContent = '00:00';
         this.elements.moves.textContent = '0';
         this.elements.solveCorrect.disabled = false;
