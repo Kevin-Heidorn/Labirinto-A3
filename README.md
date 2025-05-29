@@ -9,6 +9,7 @@ Este projeto é um jogo de labirinto gerado aleatoriamente em JavaScript. O obje
 ## Funcionalidades
 
 - **Geração automática de labirinto** com paredes externas e internas aleatórias.
+- **Redimensionamento do labirinto** com ajuste automático para tamanho ímpar (entre 5 e 99)
 - **Visualização do labirinto** e movimentação animada do solucionador.
 - Dois modos de solução:
   - **Solução correta**: encontra o caminho mais curto usando busca em largura (BFS).
@@ -22,12 +23,16 @@ Este projeto é um jogo de labirinto gerado aleatoriamente em JavaScript. O obje
 ## Como usar
 
 1. Abra o arquivo `index.html` em um navegador moderno.
-2. O labirinto será gerado automaticamente.
-3. Use os botões:
+2. O labirinto será gerado automaticamente com tamanho padrão.
+3. Para alterar o tamanho:
+   - Insira um número entre 5 e 99 no campo "Tamanho do Labirinto"
+   - O sistema ajustará automaticamente para o número ímpar mais próximo
+   - Clique em "Aplicar" para gerar novo labirinto
+4. Use os botões:
    - **Solução correta**: o jogo resolve automaticamente com o caminho ideal.
    - **Solução errada**: o jogo tenta resolver com backtracking aleatório.
    - **Resetar**: reinicia o labirinto e zera os contadores.
-4. Após completar, um modal exibirá o tempo e os movimentos feitos.
+5. Após completar, um modal exibirá o tempo e os movimentos feitos.
 
 ---
 

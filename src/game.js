@@ -61,7 +61,7 @@ class Game {
         if (newSize >= 5 && newSize <= 99) {
             this.mazeSize = newSize;
             this.resetGame();
-    } else {
+        } else {
             this.elements.mazeSizeInput.value = this.mazeSize;
             alert('Por favor, insira um tamanho ímpar entre 5 e 99');
         }
@@ -83,6 +83,7 @@ class Game {
         this.moves = 0;
         this.timer = 0;
         this.shouldShowVictory = false;
+        this.currentPosition = { x: 1, y: 1 };
         
         this.elements.solveCorrect.disabled = true;
         this.elements.solveWrong.disabled = true;
