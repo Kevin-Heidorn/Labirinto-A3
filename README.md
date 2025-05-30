@@ -22,7 +22,7 @@ Este projeto é um jogo de labirinto gerado aleatoriamente em JavaScript. O obje
 
 ## Como usar
 
-1. Abra o arquivo `index.html` em um navegador moderno.
+1. Abra o link https://mazegame-a3.vercel.app/ em um navegador moderno.
 2. O labirinto será gerado automaticamente com tamanho padrão.
 3. Para alterar o tamanho:
    - Insira um número entre 5 e 99 no campo "Tamanho do Labirinto"
